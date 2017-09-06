@@ -1,4 +1,13 @@
 <?php
+/**
+ * Basic Simple Module
+ * ------------------------------------
+ * config.php
+ *
+ * API configuration file
+ * 
+ * @author George Carvalho
+ */
 
 function ParseFormToArray($array, $prefix)
 {

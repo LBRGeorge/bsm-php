@@ -1,10 +1,22 @@
 <?php
+/**
+ * Basic Simple Module
+ * ------------------------------------
+ * config.php
+ *
+ * API configuration file
+ * 
+ * @author George Carvalho
+ */
 
 class Database {
 	
 	private $db = false;
 	private $result = array("Error" => "", "Result" => "");
 	
+	/**
+	* Create database connection
+	*/
 	function __construct()
 	{
 		$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -16,6 +28,11 @@ class Database {
 		}
 	}
 	
+	/**
+	* Query unique data
+	* @param string $sql query string
+	* @return array
+	*/
 	public function Query($sql)
 	{
 		$this->result = array("Error" => "", "Result" => "");
@@ -50,6 +67,11 @@ class Database {
 		return $this->result;
 	}
 	
+	/**
+	* Query multiple data
+	* @param string $sql query string
+	* @return array
+	*/
 	public function QueryArray($sql)
 	{
 		$this->result = array("Error" => "", "Result" => "");
@@ -72,11 +94,20 @@ class Database {
 		return $this->result;
 	}
 	
+	/**
+	* Escape string
+	* @param string $string to be escaped
+	* @return string
+	*/
 	public function EscapeString($string)
 	{
 		return $this->db->real_escape_string($string);
 	}
 	
+	/**
+	* Get last error occurred
+	* @return string
+	*/
 	public function LastError()
 	{
 		return $this->db->error;
