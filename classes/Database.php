@@ -74,7 +74,7 @@ class Database {
 	*/
 	public function QueryArray($sql)
 	{
-		$this->result = array("Error" => "", "Result" => "");
+		$this->result = array("Error" => "", "Result" => array());
 		
 		$query = $this->db->query($sql);
 		
