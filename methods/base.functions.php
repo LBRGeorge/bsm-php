@@ -73,9 +73,10 @@ class BaseFunctions {
     */
     function ValidateSession()
     {
+        //Validate by user session
         if(isset($_SESSION["userid"]) && isset($_SESSION["token"]))
         {
-            $user = new Admin();
+            $user = new User();
             $user->Load($_SESSION["userid"]);
 
             $session = new Session($user);
@@ -86,13 +87,16 @@ class BaseFunctions {
             }
         }
 
-        if (isset($this->getInput()->watcher_token))
+        //Validate by user post auth
+        if (isset($this->getInput()->user_id) && isset($this->getInput()->user_token))
         {
-            $token = "watcher_a95q3nAP7uSELANZWSc9VbpLT8gQg99YUEwMNaYyHZH6wvCV4txvRxh2yX65JPPxfHg7PxtjzCfuRfkP6kRLFYZDcrYHLuvK8A3GD6mrHqkAHYaB6pv6kGsukF23x68n";
-
-            if ($this->getInput()->watcher_token == $token)
+            $user = new User();
+            if($user->Load($this->getInput()->user_id))
             {
-                return true;
+                if ($user->Get(TOKEN_COLUMN) == $this->getInput()->user_token)
+                {
+                    return true;
+                }
             }
         }
 

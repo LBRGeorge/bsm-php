@@ -53,15 +53,11 @@ class UserFunctions extends BaseFunctions {
     {
         if (isset($this->input->username) && isset($this->input->password))
         {
-            $sql = "SELECT * FROM user WHERE Username LIKE '".$this->input->username."'";
+            $user = new User();
 
-            $query = $this->database->Query($sql);
-
-            if ($query["Result"] != "")
+            if ($user->LoadBy(array("Username" => $this->input->username), "LIKE"))
             {
-                $user = new User($query["Result"]);
-
-                if (strtolower($user->Get("password")) == strtolower(hash("SHA512", $this->input->password)))
+                if (strtolower($user->Get("Password")) == strtolower(hash("SHA512", $this->input->password)))
                 {
                     $session = new Session($user);
                     $token = $session->CreateSession();

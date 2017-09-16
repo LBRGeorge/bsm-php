@@ -72,6 +72,41 @@ class BaseData {
 	}
 
 	/**
+	* Load data of the table by column and value
+	* @param array $args columns and values respectively to SELECT condition
+	* @return array
+	*/
+	public function LoadBy($args, $condition = "=")
+	{
+		if (isset($this->table) && isset($this->database) && is_array($args))
+		{
+
+			$sql = "SELECT * FROM ".$this->table." ";
+			$where = "";
+
+			foreach($args as $key => $value)
+			{
+				if ($where == "") $where = "WHERE ";
+				else $where .= " AND ";
+
+				$where .= "$key $condition '$value'";
+			}
+
+			$sql .= $where;
+
+			$query = $this->database->Query("SELECT * FROM ".$this->table." $where");
+
+			if ($query["Result"] != "")
+			{
+				$this->_data = $query["Result"];
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	* Register data to table
 	* @param array $array as it says it's an array with columns name as key and value as... value :P
 	* @return mixed

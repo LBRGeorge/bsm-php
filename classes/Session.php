@@ -34,7 +34,7 @@ class Session{
         {
             if ($this->User->GetPrimary() != null)
             {
-                if ($_SESSION["userid"] == $this->User->GetPrimary() && $_SESSION["token"] == $this->User->Get("token"))
+                if ($_SESSION["userid"] == $this->User->GetPrimary() && $_SESSION["token"] == $this->User->Get(TOKEN_COLUMN))
                 {
                     return true;
                 }
@@ -68,11 +68,11 @@ class Session{
     {
         $token = $this->GenerateToken(256);
 
-        $this->User->Change("token", $token);
+        $this->User->Change(TOKEN_COLUMN, $token);
         $this->User->Update();
 
         $_SESSION["userid"] = $this->User->GetPrimary();
-        $_SESSION["token"] = $this->User->Get("token");
+        $_SESSION["token"] = $this->User->Get(TOKEN_COLUMN);
 
         return $token;
     }
